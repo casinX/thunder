@@ -1,0 +1,32 @@
+{
+  "name": "thunder",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "start": "npm run clean && babel-node devServer.js",
+    "build": "npm run clean && NODE_ENV=production webpack --config ./webpack.config.babel.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/casinX/thunder.git"
+  },
+  "author": "casin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/casinX/thunder/issues"
+  },
+  "homepage": "https://github.com/casinX/thunder#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
+    "html-webpack-plugin": "^2.30.1",
+    "rimraf": "^2.6.2",
+    "uglifyjs-webpack-plugin": "^1.0.1",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4"
+  },
+  "dependencies": {}
+}
