@@ -46,7 +46,8 @@ export default {
         modules: ['node_modules'],
         extensions: ['.js', ],
         alias: {
-            // 'store': `${srcPath}/store`,
+            'examples': `${srcPath}/examples`,
+            'lib': `${srcPath}/examples`,
         }
     },
     devServer: {
