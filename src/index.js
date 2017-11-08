@@ -1,1 +1,1 @@
-console.warn('Test thunder page 1111');
+import ex1 from 'examples/ex1';
