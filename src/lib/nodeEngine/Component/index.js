@@ -1,7 +1,8 @@
 import classnames from 'classnames';
 
 import slowpoke from 'lib/utils/slowpoke';
-import Element from 'lib/element';
+
+import TagElement from './TagElement';
 
 
 const defaultTagName = 'div';
@@ -48,7 +49,7 @@ export default class {
         let element = this.elements[elementKey];
 
         if(!element) {
-            element = this.elements[elementKey] = new Element(tagName, elementKey);
+            element = this.elements[elementKey] = new TagElement(tagName, elementKey);
         }
 
         delete props._mode;

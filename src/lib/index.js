@@ -1,3 +1,3 @@
-import Component from 'lib/component';
+import Component from 'lib/nodeEngine';
 
 export default Component;
