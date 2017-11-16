@@ -1,59 +1,89 @@
+import classnames from 'classnames';
+
 import slowpoke from 'lib/utils/slowpoke';
+import Element from 'lib/element';
+
+
+const defaultTagName = 'div';
 
 export default class {
-    constructor(props) {
+    constructor() {
         this.elements = {};
 
-
-        this.onRenderMethod = null;
-        this.onAfterRenderMethod = null;
+        this.renderMethod = null;
         this.mountNode = null;
-
 
         this.renderMinDelay = 1000/60;
 
         this.styles = {};
     }
 
-
-    __changeElement = (type, props, ...children) => {
-        let className = type;
-        let tagName = 'div';
-
-        if(type.indexOf('-') >= 0){
-            const result = type.split('-');
-            tagName = result[0];
-            className = result[1];
+    __makeFullClassName = (mainClassName, mainStyleName, mode) => {
+        if(!mode){
+            return mainClassName;
         }
 
-        console.warn('change Element: ', tagName, this.styles[className]);
-        // const elementKey = props.key;
-        // const element = this.elements[elementKey];
+        const modeStyleNames = classnames(mode).split(' ');
+        let modeClassNames = '';
+        modeStyleNames.forEach(
+            modeStyleName =>
+                (modeClassNames += ' ' + (this.styles[mainStyleName + modeStyleName] || ''))
+        );
+        return mainClassName + modeClassNames;
+    };
 
-        // if(!element) {
-        //     this.elements[elementKey] = new LightElement(type, props, children);
-        //     return this.elements[elementKey];
-        // }
-        //
-        // element.setProps(props);
-        // element.setChildren(children);
-        //
-        // return element;
+    __changeElement = (type, props, ...children) => {
+        props = props || {};
+
+        const result = type.split('-');
+
+        const styleName = result[0];
+        const tagName = result[1] || defaultTagName;
+
+        const mainClassName = this.styles[styleName] || '';
+        const mode = props._mode || '';
+        props.class = this.__makeFullClassName(mainClassName, styleName, mode);
+
+        const elementKey = props.key || styleName;
+        let element = this.elements[elementKey];
+
+        if(!element) {
+            element = this.elements[elementKey] = new Element(tagName, elementKey);
+        }
+
+        delete props._mode;
+        delete props._key;
+        delete props._mount;
+        delete props._realMount;
+
+        element.setProps(props);
+        element.setChildren(children);
+
+        return element;
     };
 
     // public methods
-    onRender = method => this.onRenderMethod = method.bind(this);
+    render = method => {
+        this.renderMethod = method.bind(this);
 
-    onAfterRender = method => this.onAfterRenderMethod = method;
+        return this;
+    };
 
-    stylize = styles => this.styles = Object.assign(this.styles, styles);
+    style = styles => {
+        this.styles = Object.assign(this.styles, styles);
+        return this;
+    };
 
-    mountTo(node){
+    mount(node){
         this.mountNode = node;
-        this.render();
+        this.update();
+
+        return this;
     }
 
-    render = slowpoke(() => {
-        this.onRenderMethod();
+    update = slowpoke(() => {
+        this.renderMethod();
+
+        return this;
     }, this.renderMinDelay);
 };
