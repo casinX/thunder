@@ -1,17 +1,17 @@
 import PropsManager from './propsManager';
+import ChildrenManager from './childrenManager';
 
 
 export default class {
     constructor(type, key) {
         this.type = null;
-        this.children = null;
         this.node = null;
 
         this.key = key;
 
         this.__createNode(type);
         this.propsManager = new PropsManager(this.node);
-        this.__createChildrenList();
+        this.childrenManager = new ChildrenManager(this.node);
     }
 
     __createNode = (type) => {
@@ -26,16 +26,10 @@ export default class {
             document.createElement(type);
     };
 
-    __createChildrenList = () => {
-        // this.children = new ChildrenList(this.node);
-    };
-
     // public methods
-    setProps = (newProps) => this.propsManager.setProps(newProps);
+    setProps = newProps => this.propsManager.setProps(newProps);
 
-    setChildren = (newChildren) => {
-        // this.children.update(newChildren);
-    };
+    setChildren = newChildren => this.childrenManager.setChildren(newChildren);
 
     isSame = (anotherNode) => this.node.isSameNode(anotherNode);
 
