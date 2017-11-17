@@ -54,8 +54,6 @@ export default class {
 
         delete props._mode;
         delete props._key;
-        delete props._mount;
-        delete props._realMount;
 
         element.setProps(props);
         element.setChildren(children);
