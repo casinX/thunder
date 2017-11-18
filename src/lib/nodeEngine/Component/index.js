@@ -1,8 +1,8 @@
-import classnames from 'classnames';
-
 import slowpoke from 'lib/utils/slowpoke';
 
+import devProps from './config/devProps';
 import TagElement from './TagElement';
+import splitNames from './splitNames';
 
 
 const defaultTagName = 'div';
@@ -19,12 +19,12 @@ export default class {
         this.styles = {};
     }
 
-    __makeFullClassName = (mainClassName, mainStyleName, mode) => {
+    __makeFullClassName = (mainClassName, mainStyleName, mode) =>{
         if(!mode){
             return mainClassName;
         }
 
-        const modeStyleNames = classnames(mode).split(' ');
+        const modeStyleNames = splitNames(mode);
         let modeClassNames = '';
         modeStyleNames.forEach(
             modeStyleName =>
@@ -42,7 +42,7 @@ export default class {
         const tagName = result[1] || defaultTagName;
 
         const mainClassName = this.styles[styleName] || '';
-        const mode = props._mode || '';
+        const mode = props.mode || '';
         props.class = this.__makeFullClassName(mainClassName, styleName, mode);
 
         const elementKey = props.key || styleName;
@@ -52,8 +52,7 @@ export default class {
             element = this.elements[elementKey] = new TagElement(tagName, elementKey);
         }
 
-        delete props._mode;
-        delete props._key;
+        devProps.forEach(devProp => delete props[devProp]);
 
         element.setProps(props);
         element.setChildren(children);
@@ -76,7 +75,7 @@ export default class {
     mount(node){
         this.mountNode = node;
         this.update();
-
+        this.mountNode.append(this.elements.root.getNode());
         return this;
     }
 

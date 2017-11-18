@@ -1,19 +1,30 @@
-.wrapper{
-  background-color: red;
+.root{
+  padding: 20px;
+  font-family: sans-serif;
 }
 
-.name{
-  font-size: 20px;
-
-  &red{
-    color: red;
-  }
+.nameWrapper{
+  display: block;
+  position: relative;
+  background-color: #eee;
+  margin: 0 auto;
+  font-size: 14px;
+  padding: 10px;
 }
 
-.surname{
-  font-size: 30px;
+.nameTitle{
+  display: inline-block;
+  font-weight: bold;
+}
+
+.nameValue{
+  display: inline-block;
+  padding-left: 10px;
 }
 
 .age{
-  text-align: right;
+  padding: 10px;
+  font-weight: bold;
+  margin: 10px auto;
+  background-color: #eee;
 }

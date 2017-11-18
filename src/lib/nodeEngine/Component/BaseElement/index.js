@@ -5,6 +5,8 @@ export default class{
         this.type = type;
     }
 
+    // public methods
+
     isSame = anotherNode => this.node.isSameNode(anotherNode);
 
     unmount = () => this.node.remove();

@@ -4,6 +4,7 @@ import normalizeChild from './normalizeChild.js';
 export default class{
     constructor(node){
         this.node = node;
+        this.children = [];
     }
 
     setChildren = (newChildren) => {
@@ -15,7 +16,12 @@ export default class{
 
         newChildren.forEach((newChild, newChildIndex) => {
             newChild = normalizeChild(newChild);
-            newChild.appendTo(node);
+
+            if(newChild === null){
+                return;
+            }
+
+            this.node.append(newChild.getNode())
         });
     }
 }

@@ -11,12 +11,14 @@ myList
     .style(styles)
 
     .render(() => (
-        <wrapper>
-            <name>Name: </name>
-            <surname>Anton</surname>
+        <root>
+            <nameWrapper>
+                <nameTitle>Name:</nameTitle>
+                <nameValue>Anton</nameValue>
+            </nameWrapper>
             <age>{ 123 }</age>
             { false && 'Hello'}
-        </wrapper>
+        </root>
     ))
 
     .mount(testNode);

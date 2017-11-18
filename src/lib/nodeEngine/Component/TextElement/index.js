@@ -1,13 +1,10 @@
-export default class {
+import { textElementType } from '../config/elementTypes';
+import BaseElement from '../BaseElement';
+
+export default class extends BaseElement{
     constructor (text) {
+        const node = document.createTextNode(text);
+        super(node, null, textElementType);
         this.text = text;
-        this.node = document.createTextNode('text');
     }
-
-    // public methods
-    isSame = (anotherNode) => this.node.isSameNode(anotherNode);
-
-    getNode = () => this.node;
-
-    unmount = () => this.node.remove();
 }
