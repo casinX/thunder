@@ -4,7 +4,7 @@ import BaseElement from '../BaseElement';
 export default class extends BaseElement{
     constructor (text) {
         const node = document.createTextNode(text);
-        super(node, null, textElementType);
+        super(node, textElementType);
         this.text = text;
     }
 }

@@ -3,11 +3,11 @@
   font-family: sans-serif;
 }
 
-.nameWrapper{
+.wrapper{
   display: block;
   position: relative;
   background-color: #eee;
-  margin: 0 auto;
+  margin: 0 auto 10px auto;
   font-size: 14px;
   padding: 10px;
 }
@@ -22,9 +22,10 @@
   padding-left: 10px;
 }
 
-.age{
-  padding: 10px;
-  font-weight: bold;
-  margin: 10px auto;
-  background-color: #eee;
+.button{
+  display: inline-block;
+  position: relative;
+  margin-right: 10px;
+  height: 20px;
+  border-radius: 3px;
 }

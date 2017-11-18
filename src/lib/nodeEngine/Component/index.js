@@ -2,7 +2,7 @@ import slowpoke from 'lib/utils/slowpoke';
 
 import devProps from './config/devProps';
 import TagElement from './TagElement';
-import splitNames from './splitNames';
+import splitNames from './utils/splitNames';
 
 
 const defaultTagName = 'div';

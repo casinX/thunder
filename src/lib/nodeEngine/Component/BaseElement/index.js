@@ -1,7 +1,6 @@
 export default class{
-    constructor (node, key, type) {
+    constructor (node, type) {
         this.node = node;
-        this.key = key;
         this.type = type;
     }
 
@@ -21,8 +20,6 @@ export default class{
     appendTo = node => {
         node.append(this.node);
     };
-
-    getKey = () => this.key;
 
     getNode = () => this.node;
 

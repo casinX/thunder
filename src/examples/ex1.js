@@ -12,12 +12,17 @@ myList
 
     .render(() => (
         <root>
-            <nameWrapper>
+            <wrapper key="1">
                 <nameTitle>Name:</nameTitle>
                 <nameValue>Anton</nameValue>
-            </nameWrapper>
-            <age>{ 123 }</age>
-            { false && 'Hello'}
+            </wrapper>
+
+            <wrapper key="2">{ 123 }</wrapper>
+
+            <wrapper key="3">
+                <button-button key="plus">+</button-button>
+                <button-button key="minus">-</button-button>
+            </wrapper>
         </root>
     ))
 
