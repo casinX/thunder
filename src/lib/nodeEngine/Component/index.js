@@ -28,7 +28,7 @@ export default class {
         let modeClassNames = '';
         modeStyleNames.forEach(
             modeStyleName =>
-                (modeClassNames += ' ' + (this.styles[mainStyleName + modeStyleName] || ''))
+                modeClassNames += `  ${this.styles[mainStyleName + modeStyleName] || ''}`
         );
         return mainClassName + modeClassNames;
     };
@@ -49,7 +49,7 @@ export default class {
         let element = this.elements[elementKey];
 
         if(!element) {
-            element = this.elements[elementKey] = new TagElement(tagName, elementKey);
+            element = this.elements[elementKey] = new TagElement(tagName);
         }
 
         devProps.forEach(devProp => delete props[devProp]);
@@ -75,7 +75,7 @@ export default class {
     mount(node){
         this.mountNode = node;
         this.update();
-        this.mountNode.append(this.elements.root.getNode());
+        this.mountNode.append(this.elements.root.node);
         return this;
     }
 

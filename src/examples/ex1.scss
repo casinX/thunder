@@ -3,7 +3,8 @@
   font-family: sans-serif;
 }
 
-.wrapper{
+.name,
+.surname{
   display: block;
   position: relative;
   background-color: #eee;
@@ -12,20 +13,14 @@
   padding: 10px;
 }
 
-.nameTitle{
+.nameTitle,
+.surnameTitle{
   display: inline-block;
   font-weight: bold;
 }
 
-.nameValue{
+.nameValue,
+.surnameValue{
   display: inline-block;
   padding-left: 10px;
-}
-
-.button{
-  display: inline-block;
-  position: relative;
-  margin-right: 10px;
-  height: 20px;
-  border-radius: 3px;
 }

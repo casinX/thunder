@@ -6,7 +6,7 @@ export default class{
 
     // public methods
 
-    isSame = anotherNode => this.node.isSameNode(anotherNode);
+    isSame = anotherNode => this.node.isSameNode(anotherNode.node);
 
     unmount = () => this.node.remove();
 
@@ -14,14 +14,14 @@ export default class{
 
     appendBefore = node => {
         const { parentNode } = node;
-        parentNode.insertBefore(this.node, node);
+        node.parentNode.insertBefore(this.node, node);
+    };
+
+    appendAfter = node => {
+        node.parentNode.insertBefore(this.node, node.nextSibling);
     };
 
     appendTo = node => {
         node.append(this.node);
     };
-
-    getNode = () => this.node;
-
-    getType = () => this.type;
 }

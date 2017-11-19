@@ -6,7 +6,7 @@ import createNode from './utils/createNode';
 
 
 export default class extends BaseElement{
-    constructor(type, key) {
+    constructor(type) {
         const node = createNode(type);
         super(node, tagElementType);
         this.propsManager = new PropsManager(this.node);
