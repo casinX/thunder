@@ -36,3 +36,8 @@ window.update = () => {
     window.showSurname = true;
     myList.update();
 };
+
+window.update2 = () => {
+    window.showSurname = false;
+    myList.update();
+};

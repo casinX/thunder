@@ -13,16 +13,19 @@ export default class{
         this.lastFixedListChildIndex = null;
     }
 
-    __iterFromLastFixed = method => iterateLinkedList(
-        this.lastFixedListChild || this.firstListChild,
-        this.lastFixedListChildIndex || 0,
-        method,
-    );
+    __iterAfterLastFixed = method => {
+        const iterFrom = this.lastFixedListChild ? this.lastFixedListChild.next : this.firstListChild;
+        const indexFrom = this.lastFixedListChild ? this.lastFixedListChildIndex + 1 : 0;
+
+        iterateLinkedList(
+            iterFrom,
+            indexFrom,
+            method,
+        );
+    };
 
     __appendAfterLastFixed = (child, childIndex) => {
         const listChild = createLinkedListElem(child);
-
-        console.warn('append', child.node, this.lastFixedListChild);
 
         if(this.lastFixedListChild){
             listChild.value.appendAfter(this.lastFixedListChild.value.node);
@@ -50,9 +53,7 @@ export default class{
         console.warn('move', oldChildIndex, newChildIndex);
     };
 
-    __cropAfterLastFixed = () => {
-        // console.warn('crop');
-    };
+    __cropAfterLastFixed = () => this.__iterAfterLastFixed(child => child.value.unmount());
 
     // public methods
 
@@ -72,7 +73,7 @@ export default class{
 
             let isFinded = false;
 
-            this.__iterFromLastFixed((oldChild, oldChildIndex) => {
+            this.__iterAfterLastFixed((oldChild, oldChildIndex) => {
                 if(newChild.isSame(oldChild.value)){
                     isFinded = true;
                     this.lastFixedListChild = oldChild;
