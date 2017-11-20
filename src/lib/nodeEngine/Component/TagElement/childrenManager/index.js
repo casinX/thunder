@@ -49,8 +49,8 @@ export default class{
         this.lastFixedListChildIndex = childIndex;
     };
 
-    __move = (oldChildIndex, newChildIndex) => {
-        console.warn('move', oldChildIndex, newChildIndex);
+    __move = (oldChildIndex, newChildIndex, cache) => {
+        console.warn('move', cache[oldChildIndex], cache[newChildIndex]);
     };
 
     __cropAfterLastFixed = () => this.__iterAfterLastFixed(child => child.value.unmount());
@@ -73,12 +73,17 @@ export default class{
 
             let isFinded = false;
 
+            const cache = {};
+
             this.__iterAfterLastFixed((oldChild, oldChildIndex) => {
+
+                cache[oldChildIndex] = oldChild;
+
                 if(newChild.isSame(oldChild.value)){
                     isFinded = true;
                     this.lastFixedListChild = oldChild;
                     if(newChildIndex !== oldChildIndex){
-                        this.__move(oldChildIndex, newChildIndex);
+                        this.__move(oldChildIndex, newChildIndex, cache);
                         this.lastFixedListChildIndex = newChildIndex;
                     }else{
                         this.lastFixedListChildIndex = oldChildIndex;

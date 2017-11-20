@@ -10,7 +10,9 @@ const testNode = document.getElementById('example');
 const myName = 'Anton';
 const mySurname = 'Casin';
 
-window.showSurname = false;
+window.param1 = false;
+window.param2 = false;
+
 
 myList
 
@@ -18,11 +20,15 @@ myList
 
     .render(() => (
         <root>
+            { window.param1 && <surname>
+                <surnameTitle>Surname:</surnameTitle>
+                <surnameValue>{ mySurname }</surnameValue>
+            </surname> }
             <name>
                 <nameTitle>Name:</nameTitle>
                 <nameValue>{ myName }</nameValue>
             </name>
-            { window.showSurname && <surname>
+            { window.param2 && <surname>
                 <surnameTitle>Surname:</surnameTitle>
                 <surnameValue>{ mySurname }</surnameValue>
             </surname> }
@@ -32,12 +38,14 @@ myList
     .mount(testNode);
 
 
-window.update = () => {
-    window.showSurname = true;
+window.update1 = () => {
+    window.param1 = true;
+    window.param2 = false;
     myList.update();
 };
 
 window.update2 = () => {
-    window.showSurname = false;
+    window.param1 = false;
+    window.param2 = true;
     myList.update();
 };
