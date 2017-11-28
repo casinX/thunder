@@ -1,6 +1,5 @@
 import normalizeChild from './normalizeChild';
 import iterateLinkedList from './iterateLinkedList';
-import createLinkedListElem from './createLinkedListElem';
 
 
 export default class{
@@ -25,7 +24,11 @@ export default class{
     };
 
     __appendAfterLastFixed = (child, childIndex) => {
-        const listChild = createLinkedListElem(child);
+
+        const listChild = {
+            value: child,
+            next: null,
+        };
 
         if(this.lastFixedListChild){
             listChild.value.appendAfter(this.lastFixedListChild.value.node);
@@ -49,14 +52,29 @@ export default class{
         this.lastFixedListChildIndex = childIndex;
     };
 
-    __move = (oldChildIndex, newChildIndex, cache) => {
-        console.warn('move', cache[oldChildIndex], cache[newChildIndex]);
+    __moveToLastFixed = (oldChildIndex, newChildIndex, cache) => {
+        const elemToMove = cache[oldChildIndex];
+
+        const prevElem = cache[oldChildIndex - 1] || null;
+        const nextElem = elemToMove.next || null;
+
+        if(prevElem){
+            prevElem.next = nextElem;
+        }
+
+        elemToMove.next = null;
+
+        this.__appendAfterLastFixed(elemToMove.value, newChildIndex);
     };
 
-    __cropAfterLastFixed = () => this.__iterAfterLastFixed(child => child.value.unmount());
+    __cropAfterLastFixed = () => {
+        this.__iterAfterLastFixed(child => child.value.unmount());
+        if(this.lastFixedListChild){
+            this.lastFixedListChild.next = null;
+        }
+    };
 
     // public methods
-
     setChildren = (newChildren) => {
         let correctionIndex = 0;
 
@@ -81,12 +99,11 @@ export default class{
 
                 if(newChild.isSame(oldChild.value)){
                     isFinded = true;
-                    this.lastFixedListChild = oldChild;
                     if(newChildIndex !== oldChildIndex){
-                        this.__move(oldChildIndex, newChildIndex, cache);
-                        this.lastFixedListChildIndex = newChildIndex;
+                        this.__moveToLastFixed(oldChildIndex, newChildIndex, cache);
                     }else{
                         this.lastFixedListChildIndex = oldChildIndex;
+                        this.lastFixedListChild = oldChild;
                     }
                     return true;
                 }
