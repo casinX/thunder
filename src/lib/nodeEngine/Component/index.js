@@ -83,6 +83,4 @@ export default class {
         this.renderMethod();
         return this;
     }, this.renderMinDelay);
-
-    listen
 };
