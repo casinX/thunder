@@ -81,7 +81,8 @@ export default class {
 
     update = slowpoke(() => {
         this.renderMethod();
-
         return this;
     }, this.renderMinDelay);
+
+    listen
 };

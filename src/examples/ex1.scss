@@ -3,7 +3,6 @@
   font-family: sans-serif;
 }
 
-.name,
 .surname{
   display: block;
   position: relative;
@@ -13,14 +12,16 @@
   padding: 10px;
 }
 
-.nameTitle,
-.surnameTitle{
+.title{
   display: inline-block;
   font-weight: bold;
+
+  &red{
+    color: red;
+  }
 }
 
-.nameValue,
-.surnameValue{
+.value{
   display: inline-block;
   padding-left: 10px;
 }
