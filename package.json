@@ -37,5 +37,7 @@
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "styled-elements": "^1.0.14"
+  }
 }

@@ -1,13 +1,21 @@
 import Component from 'lib';
 
+// import styled from 'styled-elements';
+// const Header = styled.h2`
+//   color: red;
+// `;
+// document.body.appendChild(Header('My header!'));
+
+
 import styles from './ex1.scss';
 
 
-const myList = new Component();
+const clickHandler = e => {
+    console.warn('Click!');
+};
 
-const mySurname = 'Casin';
 
-myList
+new Component()
 
     .style(styles)
 
@@ -15,7 +23,7 @@ myList
         <root>
             <surname>
                 <title>Surname:</title>
-                <value>{ mySurname }</value>
+                <value click={clickHandler}>Casin</value>
             </surname>
         </root>
     ))
