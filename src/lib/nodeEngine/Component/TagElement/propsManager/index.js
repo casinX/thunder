@@ -1,4 +1,4 @@
-import uiEvents from './uiEvents';
+import events from './events';
 
 
 export default class{
@@ -17,7 +17,7 @@ export default class{
             const newProp = newProps[oldPropKey];
             const oldProp = oldProps[oldPropKey];
             if (!newProp) {
-                if(uiEvents[oldPropKey]){
+                if(events[oldPropKey]){
                     node.removeEventListener(oldPropKey, oldProp);
                     this.eventHandlers[oldPropKey] = undefined;
                 }else {
@@ -30,7 +30,7 @@ export default class{
             const oldProp = oldProps[newPropKey];
             const newProp = newProps[newPropKey];
             if (!oldProp || oldProp !== newProp) {
-                if(uiEvents[newPropKey]){
+                if(events[newPropKey]){
                     node.addEventListener(newPropKey, newProp);
                     this.eventHandlers[newPropKey] = newProp;
                 }else{

@@ -1,11 +1,4 @@
-import Component from 'lib';
-
-// import styled from 'styled-elements';
-// const Header = styled.h2`
-//   color: red;
-// `;
-// document.body.appendChild(Header('My header!'));
-
+import Component, { Container } from 'lib';
 
 import styles from './ex1.scss';
 
@@ -21,6 +14,9 @@ const clickMinus = e => {
     age--;
     myComponent.update();
 };
+
+const myContainer = new Container();
+
 
 
 const myComponent = new Component();
