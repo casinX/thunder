@@ -72,6 +72,11 @@ export default class {
         return this;
     };
 
+    connect = (...containers) => {
+        containers.forEach(container => container.__subscribeComponent(this.update));
+        return this;
+    };
+
     mount(node){
         this.mountNode = node;
         this.update();

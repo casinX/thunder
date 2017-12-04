@@ -13,6 +13,8 @@ export default class{
         const oldProps = this.props;
         const node = this.node;
 
+        // TODO optimize props cycles - delete some new props in first cycle if they are equal to old props
+
         Object.keys(oldProps).forEach(oldPropKey => {
             const newProp = newProps[oldPropKey];
             const oldProp = oldProps[oldPropKey];
