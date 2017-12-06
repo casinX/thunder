@@ -38,6 +38,7 @@
     "webpack-dev-server": "^2.9.4"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "styled-elements": "^1.0.14"
   }
 }

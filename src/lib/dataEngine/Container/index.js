@@ -1,71 +1,67 @@
+import axios from 'axios';
+
 import syncDecorator from './utils/syncDecorator';
+import asyncDecorator from './utils/asyncDecorator';
+import excludedActionsNames from './excludedActionsNames';
 
 
 export default class {
-    constructor(data){
+    constructor(data, config={}){
         this.data = data || null;
-        this.error = null;
+        this.error = config.error || null;
 
-        this.isLoading = false;
-        this.hasData = Boolean(data);
-        this.isError = false;
-
-        this.actions = {};
-
-        this.__bufferActionName = null;
-
-        this.actionContext = {
-            isLoading: this.isLoading,
-            hasData: this.hasData,
-            isError: this.isError,
-            actions: this.actions,
-            data: this.data,
-            error: this.error,
+        this.state = config.state || {
+            isLoading: false,
+            isLoaded: false,
+            isError: false,
         };
 
-        this.updateMethods = [];
+        this.request = axios;
+
+        this.__updateMethods = [];
 
         this.__syncCallbackBefore = () => {};
+        this.__syncCallbackAfter = () => this.__updateAllComponents();
 
-        this.__syncCallbackAfter = () => this.updateMethods.forEach(updateMethod => updateMethod());
+        this.__asyncCallbackBefore = () => {
+            this.state.isLoading = true;
+            this.state.isError = false;
+            this.__updateAllComponents();
+        };
+
+        this.__asyncCallbackAfter = (error) => {
+            const isError = typeof error === 'object';
+            this.state.isLoading = false;
+            this.state.isError = isError;
+            this.state.isLoaded = !isError;
+            this.error = isError ? error : null;
+            this.__updateAllComponents();
+        };
     }
 
-    __subscribeComponent = updateMethod => this.updateMethods.push(updateMethod);
+    __updateAllComponents = () => this.__updateMethods.forEach(updateMethod => updateMethod());
 
-    __unsubscribeComponent = updateMethod => {
+    __subscribeComponent = updateMethod => this.__updateMethods.push(updateMethod);
 
-        this.updateMethods = this.updateMethods.filter(currentUpdateMethod => currentUpdateMethod !== updateMethod);
-    };
+    __unSubscribeComponent = updateMethod => this.__updateMethods = this.__updateMethods.filter(currentUpdateMethod => currentUpdateMethod !== updateMethod);
 
     // public methods
-    action (actionName) {
-        this.__bufferActionName = actionName;
-        if(!this.actions[actionName]){
-            this.actions[actionName] = {
-                sync: null,
-                async: null,
-            }
+    action (actionName, actionMethod, isAsync) {
+        if(excludedActionsNames[actionName]){
+            throw new Error('Wrong action name');
         }
-        return this;
-    }
-
-    get sync () {
-        return this.actions[this.__bufferActionName].sync
-    }
-
-    set sync (action) {
-        this.actions[this.__bufferActionName].sync = syncDecorator(
+        this[actionName] = isAsync ?
+            asyncDecorator(
+                this.__asyncCallbackBefore,
+                actionMethod.bind(this),
+                this.__asyncCallbackAfter,
+            ) :
+            syncDecorator(
             this.__syncCallbackBefore,
-            action.bind(this.actionContext),
+            actionMethod.bind(this),
             this.__syncCallbackAfter,
         );
-    }
 
-    get async () {
-        return this.actions[this.__bufferActionName].async;
-    }
-
-    set async (action) {
-        this.actions[this.__bufferActionName].async = action;
+        return this;
     }
 }

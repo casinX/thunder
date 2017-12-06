@@ -28,16 +28,18 @@
 }
 
 .plus,
-.minus{
+.minus,
+.load{
   display: inline-block;
   position: relative;
   height: 20px;
-  width: 20px;
+  min-width: 20px;
   cursor: pointer;
   margin-right: 10px;
   line-height: 20px;
   text-align: center;
   border: 1px solid #ccc;
+  padding: 5px;
 
   user-select: none;
 

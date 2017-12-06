@@ -1,48 +1,28 @@
-import Component, { Container } from 'lib';
+import Component from 'lib';
 
+import store from './store';
 import styles from './ex1.scss';
 
 
-
-const user = new Container({
-    age: 0,
-});
-
-user.action('increment').sync = function () {
-    user.data.age++;
-};
-
-user.action('decrement').sync = function () {
-    user.data.age--;
-};
-
-
-
-
-const myComponent = new Component();
-
-const clickPlus = e => {
-    user.action('increment').sync();
-};
-
-const clickMinus = e => {
-    user.action('decrement').sync();
-};
-
-myComponent
+new Component()
 
     .style(styles)
 
-    .connect(user)
+    .connect(store)
 
     .render(() => (
         <root>
             <age>
                 <title>Age:</title>
-                <value>{ user.data.age }</value>
+                <value>{ store.data.age }</value>
+                { store.state.isLoading && 'Loading' }
+                { store.state.isLoaded && 'Loaded' }
+                { store.state.isError && 'Error' }
+                { store.state.isLoaded && store.data.repos.length }
             </age>
-            <plus click={clickPlus}>+</plus>
-            <minus click={clickMinus}>-</minus>
+            <plus click={store.increment}>+</plus>
+            <minus click={store.decrement}>-</minus>
+            <load click={store.loadGit}>load</load>
         </root>
     ))
 
