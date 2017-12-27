@@ -1,8 +1,8 @@
 export default {
     data: true,
-    state: true,
-    request: true,
+    axios: true,
     action: true,
+    async: true,
     __updateMethods: true,
     __syncCallbackBefore: true,
     __syncCallbackAfter: true,
@@ -11,4 +11,5 @@ export default {
     __updateAllComponents: true,
     __subscribeComponent: true,
     __unSubscribeComponent: true,
+    __validateActionName: true,
 }

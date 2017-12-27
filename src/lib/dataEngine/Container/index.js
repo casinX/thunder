@@ -6,35 +6,27 @@ import excludedActionsNames from './excludedActionsNames';
 
 
 export default class {
-    constructor(data, config={}){
+    constructor(data){
         this.data = data || null;
-        this.error = config.error || null;
 
-        this.state = config.state || {
-            isLoading: false,
-            isLoaded: false,
-            isError: false,
-        };
-
-        this.request = axios;
+        this.axios = axios;
 
         this.__updateMethods = [];
 
         this.__syncCallbackBefore = () => {};
         this.__syncCallbackAfter = () => this.__updateAllComponents();
 
-        this.__asyncCallbackBefore = () => {
-            this.state.isLoading = true;
-            this.state.isError = false;
+        this.__asyncCallbackBefore = (state) => {
+            state.wait = true;
+            state.ready = false;
+            state.error = null;
             this.__updateAllComponents();
         };
 
-        this.__asyncCallbackAfter = (error) => {
-            const isError = typeof error === 'object';
-            this.state.isLoading = false;
-            this.state.isError = isError;
-            this.state.isLoaded = !isError;
-            this.error = isError ? error : null;
+        this.__asyncCallbackAfter = (state, error) => {
+            state.wait = false;
+            state.error = error;
+            state.ready = !error;
             this.__updateAllComponents();
         };
     }
@@ -45,18 +37,18 @@ export default class {
 
     __unSubscribeComponent = updateMethod => this.__updateMethods = this.__updateMethods.filter(currentUpdateMethod => currentUpdateMethod !== updateMethod);
 
-    // public methods
-    action (actionName, actionMethod, isAsync) {
-        if(excludedActionsNames[actionName]){
+    __validateActionName = name => {
+        if(excludedActionsNames[name]){
             throw new Error('Wrong action name');
         }
-        this[actionName] = isAsync ?
-            asyncDecorator(
-                this.__asyncCallbackBefore,
-                actionMethod.bind(this),
-                this.__asyncCallbackAfter,
-            ) :
-            syncDecorator(
+        return true;
+    };
+
+    // public methods
+    action (actionName, actionMethod) {
+        this.__validateActionName(actionName);
+
+        this[actionName] = syncDecorator(
             this.__syncCallbackBefore,
             actionMethod.bind(this),
             this.__syncCallbackAfter,
@@ -64,4 +56,24 @@ export default class {
 
         return this;
     }
+
+    async (actionName, actionMethod) {
+        this.__validateActionName(actionName);
+
+        this[actionName] = {
+            ready: false,
+            wait: false,
+            error: null,
+        };
+
+        this[actionName].do = asyncDecorator(
+            this.__asyncCallbackBefore,
+            actionMethod.bind(this),
+            this.__asyncCallbackAfter,
+            this[actionName],
+        );
+
+        return this;
+    }
+
 }

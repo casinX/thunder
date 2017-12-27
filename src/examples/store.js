@@ -14,10 +14,10 @@ user.action('decrement', () => {
     user.data.age --;
 });
 
-user.action('loadGit', async () => {
-    const response = await user.request.get('https://api.github.com/users/casinX/repos');
-    user.data.respos = response.data;
-}, true);
+user.async('loadGit', async () => {
+    const response = await user.axios.get('https://api.github.com/users/casinX/repos');
+    user.data.repos = response.data;
+});
 
 
 export default user;

@@ -1,6 +1,7 @@
-export default (callbackBefore, asyncAction, callbackAfter) => async (...args) => {
-    callbackBefore();
-    const result = await asyncAction(...args);
-    callbackAfter(result);
-    return result;
+export default (callbackBefore, asyncAction, callbackAfter, state) => async (...args) => {
+    callbackBefore(state);
+    const promise = asyncAction(...args);
+    const result = await promise;
+    callbackAfter(state, result);
+    return promise;
 }
