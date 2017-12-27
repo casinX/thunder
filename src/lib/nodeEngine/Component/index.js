@@ -2,19 +2,22 @@ import slowpoke from 'lib/utils/slowpoke';
 
 import devProps from './config/devProps';
 import TagElement from './TagElement';
+import ComponentElement from './ComponentElement';
 import splitNames from './utils/splitNames';
 
 
 const defaultTagName = 'div';
 
-export default class {
-    constructor() {
+class Component {
+    constructor(FPS=60) {
         this.elements = {};
+
+        this.components = {};
 
         this.renderMethod = null;
         this.mountNode = null;
 
-        this.renderMinDelay = 1000/60;
+        this.renderMinDelay = 1000/FPS;
 
         this.styles = {};
     }
@@ -33,7 +36,21 @@ export default class {
         return mainClassName + modeClassNames;
     };
 
-    __changeElement = (type, props, ...children) => {
+    __changeElement = (typeOrComponent, props, ...children) => {
+
+        if(typeOrComponent instanceof Component){
+            const component = typeOrComponent;
+            const componentKey = props.key;
+            let bufferedComponent = this.components[componentKey];
+            if(!bufferedComponent) {
+                bufferedComponent = this.components[componentKey] = new ComponentElement(component);
+            }
+            bufferedComponent.tryRender();
+            return bufferedComponent.getRootElement();
+        }
+
+        const type = typeOrComponent;
+
         props = props || {};
 
         const result = type.split('-');
@@ -63,7 +80,6 @@ export default class {
     // public methods
     render = method => {
         this.renderMethod = method.bind(this);
-
         return this;
     };
 
@@ -89,3 +105,5 @@ export default class {
         return this;
     }, this.renderMinDelay);
 };
+
+export default Component;

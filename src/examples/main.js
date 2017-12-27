@@ -1,10 +1,11 @@
 import Component from 'lib';
 
+import LoadStatus from './LoadStatus';
 import userStore from './store';
-import styles from './ex1.scss';
+import styles from './main.scss';
 
 
-new Component()
+export default new Component()
 
     .style(styles)
 
@@ -15,15 +16,9 @@ new Component()
             <age>
                 <title mode="red">Age:</title>
                 <value>{ userStore.data.age }</value>
-                { userStore.loadGit.wait && 'Loading' }
-                { userStore.loadGit.ready && 'Loaded' }
-                { userStore.loadGit.error && 'Error' }
-                { userStore.loadGit.ready && userStore.data.repos.length }
             </age>
+            <LoadStatus key="LoadStatus"/>
             <plus click={userStore.increment}>+</plus>
             <minus click={userStore.decrement}>-</minus>
-            <load click={userStore.loadGit.do}>load</load>
         </root>
-    ))
-
-    .mount(document.getElementById('example'));
+    ));

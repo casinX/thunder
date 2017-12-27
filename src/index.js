@@ -1,1 +1,3 @@
-import ex1 from 'examples/ex1';
+import Main from 'examples/main';
+
+Main.mount(document.getElementById('main'));
