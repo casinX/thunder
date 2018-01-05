@@ -145,8 +145,8 @@ export default class {
         return this;
     };
 
-    update = slowpoke((isForceUpdate) => {
-        if(this.isMounted || isForceUpdate){
+    update = slowpoke((isFirstRenderEver) => {
+        if(this.isMounted || isFirstRenderEver){
             this.renderMethod();
         }
         return this;
