@@ -1,11 +1,11 @@
-import { textElementType } from '../config/elementTypes';
+import config from '../config';
 import BaseElement from '../BaseElement';
 
 export default class extends BaseElement{
 
     constructor (text) {
         const node = document.createTextNode(text);
-        super(node, textElementType);
+        super(node, config.TEXT_ELEMENT_TYPE);
         this.text = text;
     }
 

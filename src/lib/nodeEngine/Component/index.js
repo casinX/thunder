@@ -1,18 +1,19 @@
 import slowpoke from 'lib/utils/slowpoke';
 
-import devProps from './config/devProps';
+import config from './config';
 import TagElement from './TagElement';
 import ComponentElement from './ComponentElement';
 import splitNames from './utils/splitNames';
 
 
-const defaultTagName = 'div';
+export default class {
+    constructor(componentConfig={}) {
+        const {
+            FPS = config.DEFAULT_FPS,
+        } = componentConfig;
 
-class Component {
-    constructor(FPS=60) {
-        this.elements = {};
-
-        this.components = {};
+        this.tagElements = {};
+        this.componentElements = {};
 
         this.renderMethod = null;
         this.mountNode = null;
@@ -20,7 +21,42 @@ class Component {
         this.renderMinDelay = 1000/FPS;
 
         this.styles = {};
+
+
+        this.beforeMountCallback = () => {};
+        this.afterMountCallback = () => {};
+
+        this.beforeUnmountCallback = () => {};
+        this.afterUnmountCallback = () => {};
+
+        this.isMounted = false;
     }
+
+    __tryLifeCycleBeforeMount = () => {
+        if(!this.isMounted){
+            this.beforeMountCallback();
+        }
+    };
+
+    __tryLifeCycleAfterMount = () => {
+        if(!this.isMounted) {
+            this.isMounted = true;
+            this.afterMountCallback();
+        }
+    };
+
+    __tryLifeCycleBeforeUnmount = () => {
+        if(this.isMounted){
+            this.beforeUnmountCallback();
+        }
+    };
+
+    __tryLifeCycleAfterUnmount = () => {
+        if(this.isMounted) {
+            this.isMounted = false;
+            this.afterUnmountCallback();
+        }
+    };
 
     __makeFullClassName = (mainClassName, mainStyleName, mode) =>{
         if(!mode){
@@ -36,46 +72,52 @@ class Component {
         return mainClassName + modeClassNames;
     };
 
-    __changeElement = (typeOrComponent, props, ...children) => {
-
-        if(typeOrComponent instanceof Component){
-            const component = typeOrComponent;
-            const componentKey = props.key;
-            let bufferedComponent = this.components[componentKey];
-            if(!bufferedComponent) {
-                bufferedComponent = this.components[componentKey] = new ComponentElement(component);
-            }
-            bufferedComponent.tryRender();
-            return bufferedComponent.getRootElement();
-        }
-
-        const type = typeOrComponent;
-
+    __changeTagElement = (type, props, children) => {
         props = props || {};
 
         const result = type.split('-');
 
         const styleName = result[0];
-        const tagName = result[1] || defaultTagName;
+        const tagName = result[1] || config.DEFAULT_TAG_NAME;
 
         const mainClassName = this.styles[styleName] || '';
         const mode = props.mode || '';
         props.class = this.__makeFullClassName(mainClassName, styleName, mode);
 
         const elementKey = props.key || styleName;
-        let element = this.elements[elementKey];
+        let element = this.tagElements[elementKey];
 
         if(!element) {
-            element = this.elements[elementKey] = new TagElement(tagName);
+            element = this.tagElements[elementKey] = new TagElement(tagName);
         }
 
-        devProps.forEach(devProp => delete props[devProp]);
+        config.SERVICE_PROPS.forEach(devProp => delete props[devProp]);
 
         element.setProps(props);
         element.setChildren(children);
 
         return element;
     };
+
+    __changeComponentElement = (componentCreator, props, children) => {
+        const componentKey = props.key;
+        let componentElement = this.componentElements[componentKey];
+        if(!componentElement) {
+            componentElement = this.componentElements[componentKey] = new ComponentElement(componentCreator, props, children);
+        }
+        return componentElement;
+    };
+
+    __changeElement = (typeOrComponentCreator, props, ...children) => {
+
+        if(typeof typeOrComponentCreator === 'function'){
+            return this.__changeComponentElement(typeOrComponentCreator, props, children);
+        }
+
+        return this.__changeTagElement(typeOrComponentCreator, props, children);
+    };
+
+    __getRootElement = () => this.tagElements.root || this.componentElements.root;
 
     // public methods
     render = method => {
@@ -84,6 +126,7 @@ class Component {
     };
 
     style = styles => {
+        //TODO make styles array and take two equal classes if need
         this.styles = Object.assign(this.styles, styles);
         return this;
     };
@@ -93,17 +136,39 @@ class Component {
         return this;
     };
 
-    mount(node){
+    mountTo = (node) => {
         this.mountNode = node;
-        this.update();
-        this.mountNode.append(this.elements.root.node);
+        this.__tryLifeCycleBeforeMount();
+        this.update(true);
+        this.__tryLifeCycleAfterMount();
+        this.mountNode.append(this.__getRootElement().getNode());
         return this;
-    }
+    };
 
-    update = slowpoke(() => {
-        this.renderMethod();
+    update = slowpoke((isForceUpdate) => {
+        if(this.isMounted || isForceUpdate){
+            this.renderMethod();
+        }
         return this;
     }, this.renderMinDelay);
-};
 
-export default Component;
+    beforeMount = beforeMountCallback => {
+        this.beforeMountCallback = beforeMountCallback;
+        return this;
+    };
+
+    afterMount = afterMountCallback => {
+        this.afterMountCallback = afterMountCallback;
+        return this;
+    };
+
+    beforeUnmount = beforeUnmountCallback => {
+        this.beforeUnmountCallback = beforeUnmountCallback;
+        return this;
+    };
+
+    afterUnmount = afterUnmountCallback => {
+        this.afterUnmountCallback = afterUnmountCallback;
+        return this;
+    };
+};

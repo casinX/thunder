@@ -1,27 +1,34 @@
-export default class{
-    constructor (node, type) {
+export default class {
+    constructor(node, type) {
         this.node = node;
         this.type = type;
     }
 
-    // public methods
+    __unmount = () => this.node.remove();
 
-    isSame = anotherNode => this.node.isSameNode(anotherNode.node);
+    __fakeUnmount = () => this.node.styles.display = 'none';
 
-    unmount = () => this.node.remove();
-
-    fakeUnmount = () => this.node.styles.display = 'none';
-
-    appendBefore = node => {
+    __appendBefore = node => {
         const { parentNode } = node;
         node.parentNode.insertBefore(this.node, node);
     };
 
-    appendAfter = node => {
-        node.parentNode.insertBefore(this.node, node.nextSibling);
-    };
+    __appendAfter = node => node.parentNode.insertBefore(this.node, node.nextSibling);
 
-    appendTo = node => {
-        node.append(this.node);
-    };
+    __appendTo = node => node.append(this.node);
+
+    // public methods
+    isSame = anotherNode => this.node.isSameNode(anotherNode.node);
+
+    unmount = this.__unmount;
+
+    fakeUnmount = this.__fakeUnmount;
+
+    appendBefore = this.__appendBefore;
+
+    appendAfter = this.__appendAfter;
+
+    appendTo = this.__appendTo;
+
+    getNode = () => this.node;
 }

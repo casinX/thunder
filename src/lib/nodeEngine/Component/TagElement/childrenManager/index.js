@@ -31,7 +31,7 @@ export default class{
         };
 
         if(this.lastFixedListChild){
-            listChild.value.appendAfter(this.lastFixedListChild.value.node);
+            listChild.value.appendAfter(this.lastFixedListChild.value.getNode());
 
             listChild.next = this.lastFixedListChild.next;
             this.lastFixedListChild.next = listChild;
@@ -39,7 +39,7 @@ export default class{
         }else{
 
             if(this.firstListChild){
-                listChild.value.appendBefore(this.firstListChild.value.node);
+                listChild.value.appendBefore(this.firstListChild.value.getNode());
                 listChild.next = this.firstListChild;
             }else{
                 listChild.value.appendTo(this.parentNode);

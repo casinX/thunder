@@ -17,8 +17,9 @@ export default new Component()
                 <title mode="red">Age:</title>
                 <value>{ userStore.data.age }</value>
             </age>
-            <LoadStatus key="LoadStatus"/>
             <plus click={userStore.increment}>+</plus>
             <minus click={userStore.decrement}>-</minus>
+            <load click={userStore.loadGit.do}>Загрузить</load>
+            { userStore.data.age !== 5 && userStore.data.age !== 3 && <LoadStatus key="LoadStatus" store={userStore} status={userStore.loadGit}/> }
         </root>
     ));
