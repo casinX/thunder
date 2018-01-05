@@ -128,9 +128,8 @@ export default class {
         return this;
     };
 
-    style = styles => {
-        //TODO make styles array and take two equal classes if need
-        this.styles = Object.assign(this.styles, styles);
+    style = (...allStyles) => {
+        allStyles.forEach(styles => this.styles = Object.assign(this.styles, styles));
         return this;
     };
 

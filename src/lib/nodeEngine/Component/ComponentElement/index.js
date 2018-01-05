@@ -25,8 +25,6 @@ export default class extends BaseElement{
 
     unmount = (...args) => this.__lifeCycleUnmount(this.__unmount, args);
 
-    fakeUnmount = (...args) => this.__lifeCycleUnmount(this.__fakeUnmount, args);
-
     appendBefore = (...args) => this.__lifeCycleMount(this.__appendBefore, args);
 
     appendAfter = (...args) => this.__lifeCycleMount(this.__appendAfter, args);

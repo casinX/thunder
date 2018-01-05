@@ -6,8 +6,6 @@ export default class {
 
     __unmount = () => this.node.remove();
 
-    __fakeUnmount = () => this.node.styles.display = 'none';
-
     __appendBefore = node => {
         const { parentNode } = node;
         node.parentNode.insertBefore(this.node, node);
@@ -21,8 +19,6 @@ export default class {
     isSame = anotherNode => this.node.isSameNode(anotherNode.node);
 
     unmount = this.__unmount;
-
-    fakeUnmount = this.__fakeUnmount;
 
     appendBefore = this.__appendBefore;
 
