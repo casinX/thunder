@@ -85,18 +85,18 @@ export default class {
         props.class = this.__makeFullClassName(mainClassName, styleName, mode);
 
         const elementKey = props.key || styleName;
-        let element = this.tagElements[elementKey];
+        let tagElement = this.tagElements[elementKey];
 
-        if(!element) {
-            element = this.tagElements[elementKey] = new TagElement(tagName);
+        if(!tagElement) {
+            tagElement = this.tagElements[elementKey] = new TagElement(tagName);
         }
 
         config.SERVICE_PROPS.forEach(devProp => delete props[devProp]);
 
-        element.setProps(props);
-        element.setChildren(children);
+        tagElement.setProps(props);
+        tagElement.setChildren(children);
 
-        return element;
+        return tagElement;
     };
 
     __changeComponentElement = (componentCreator, props, children) => {
