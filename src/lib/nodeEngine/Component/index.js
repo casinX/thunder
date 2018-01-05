@@ -4,6 +4,7 @@ import config from './config';
 import TagElement from './TagElement';
 import ComponentElement from './ComponentElement';
 import splitNames from './utils/splitNames';
+import evolventChildren from './utils/evolventChildren';
 
 
 export default class {
@@ -110,6 +111,8 @@ export default class {
 
     __changeElement = (typeOrComponentCreator, props, ...children) => {
 
+        children = evolventChildren(children);
+
         if(typeof typeOrComponentCreator === 'function'){
             return this.__changeComponentElement(typeOrComponentCreator, props, children);
         }
@@ -121,7 +124,7 @@ export default class {
 
     // public methods
     render = method => {
-        this.renderMethod = method.bind(this);
+        this.renderMethod = method;
         return this;
     };
 
@@ -147,7 +150,7 @@ export default class {
 
     update = slowpoke((isFirstRenderEver) => {
         if(this.isMounted || isFirstRenderEver){
-            this.renderMethod();
+            this.renderMethod(this);
         }
         return this;
     }, this.renderMinDelay);

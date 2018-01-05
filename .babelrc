@@ -1,7 +1,7 @@
 {
   "plugins": [
     ["transform-react-jsx", {
-      "pragma": "this.__changeElement"
+      "pragma": "e.__changeElement"
     }]
   ],
   "presets": [

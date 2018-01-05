@@ -13,7 +13,7 @@ export default ({ store, status }, children) => new Component()
 
     .afterMount(() => console.warn('after mount'))
 
-    .render(() => {
+    .render(e => {
         console.warn('render');
         return <root>
             {status.wait && 'Ажидайти'}
