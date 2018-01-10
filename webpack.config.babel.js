@@ -8,7 +8,6 @@ import autoprefixer from 'autoprefixer';
 
 const srcPath = path.join(__dirname, 'src');
 const isProd = process.env.NODE_ENV === 'production';
-// const extractCSS = new ExtractTextPlugin('[name]-[hash].css');
 const extractCSS = new ExtractTextPlugin({
     filename: 'css/[name].[hash:6].css',
     allChunks: true
@@ -90,7 +89,7 @@ export default {
         modules: ['node_modules'],
         extensions: ['.js', ],
         alias: {
-            'examples': `${srcPath}/examples`,
+            'example': `${srcPath}/example`,
             'lib': `${srcPath}/lib`,
         }
     },
