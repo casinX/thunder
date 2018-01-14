@@ -90,6 +90,7 @@ export default {
         extensions: ['.js', ],
         alias: {
             'example': `${srcPath}/example`,
+            'components': `${srcPath}/example/components`,
             'lib': `${srcPath}/lib`,
         }
     },

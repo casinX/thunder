@@ -1,7 +1,7 @@
-import Container from './Container'
+import Store from './Store'
 
 export {
-    Container,
+    Store,
 };
 
-export default Container;
+export default Store;

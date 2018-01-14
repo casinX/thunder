@@ -1,16 +1,19 @@
-import Component, { Container } from 'lib';
+import Component, { Store } from 'lib';
 
-import LoadStatus from './LoadStatus';
-import Repo from './Repo';
-import store from './store';
+import Button from 'components/Button';
+
+import Profile from './Profile';
+
 import styles from './styles.scss';
 
 
 
-const localStore = new Container({ showRepos: true })
+const store = new Store({ show: true, text: 'Скрыть' })
 
     .action('toggle', () => {
-        localStore.data.showRepos = !localStore.data.showRepos;
+        const { show } = store.data;
+        store.data.show = !show;
+        store.data.text = show ? 'Показать' : 'Скрыть';
     });
 
 
@@ -18,20 +21,14 @@ export default new Component()
 
     .style(styles)
 
-    .connect(store, localStore)
+    .connect(store)
 
     .render(e => (
         <root>
-            <title-h1>
-                Git loader
-            </title-h1>
-            { localStore.data.showRepos && <repos>
-                { store.data.repos.slice(0, 1).map(repo => <Repo key={repo.id} repo={repo} store={store}/>) }
+            <title-h1>Git loader</title-h1>
+            { store.data.show && <repos>
+                <Profile key="Profile1"/>
             </repos> }
-            <load click={store.loadGit.do}>Загрузить</load>
-            <load key="hide" click={localStore.toggle}>
-                { localStore.data.showRepos ? 'Скрыть' : 'Показать' }
-            </load>
-            <LoadStatus key="LoadStatus" store={store} status={store.loadGit}/>
+            <Button key="Button" store={store}/>
         </root>
     ));

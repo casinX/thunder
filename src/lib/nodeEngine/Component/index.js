@@ -11,6 +11,7 @@ export default class {
     constructor(componentConfig={}) {
         const {
             FPS = config.DEFAULT_FPS,
+            sensitive = config.DEFAULT_SENSITIVE_STATE,
         } = componentConfig;
 
         this.tagElements = {};
@@ -23,7 +24,8 @@ export default class {
 
         this.styles = {};
 
-
+        this.isSensetive = sensitive;
+        
         this.beforeMountCallback = () => {};
         this.afterMountCallback = () => {};
 

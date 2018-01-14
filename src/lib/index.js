@@ -1,11 +1,11 @@
 import Component from 'lib/nodeEngine'
 
-import Container from 'lib/dataEngine';
+import Store from 'lib/dataEngine';
 
 
 export {
     Component,
-    Container,
+    Store,
 };
 
 export default Component;
