@@ -1,9 +1,10 @@
 import normalizeChild from './normalizeChild';
 import iterateLinkedList from './iterateLinkedList';
+import config from '../../config';
 
 
-export default class{
-    constructor(node){
+export default class {
+    constructor(node) {
         this.parentNode = node;
 
         this.firstListChild = null;
@@ -30,18 +31,18 @@ export default class{
             next: null,
         };
 
-        if(this.lastFixedListChild){
+        if (this.lastFixedListChild) {
             listChild.value.appendAfter(this.lastFixedListChild.value.getNode());
 
             listChild.next = this.lastFixedListChild.next;
             this.lastFixedListChild.next = listChild;
 
-        }else{
+        } else {
 
-            if(this.firstListChild){
+            if (this.firstListChild) {
                 listChild.value.appendBefore(this.firstListChild.value.getNode());
                 listChild.next = this.firstListChild;
-            }else{
+            } else {
                 listChild.value.appendTo(this.parentNode);
             }
 
@@ -58,7 +59,7 @@ export default class{
         const prevElem = cache[oldChildIndex - 1] || null;
         const nextElem = elemToMove.next || null;
 
-        if(prevElem){
+        if (prevElem) {
             prevElem.next = nextElem;
         }
 
@@ -69,9 +70,17 @@ export default class{
 
     __cropAfterLastFixed = () => {
         this.__iterAfterLastFixed(child => child.value.unmount());
-        if(this.lastFixedListChild){
+        if (this.lastFixedListChild) {
             this.lastFixedListChild.next = null;
         }
+    };
+
+    __allPurposeParentLifeCycleMethod = methodName => {
+        iterateLinkedList(this.firstListChild, 0, ({value: child}) => {
+            if (child.type === config.TAG_ELEMENT_TYPE || child.type === config.COMPONENT_ELEMENT_TYPE) {
+                child[methodName]();
+            }
+        });
     };
 
     // public methods
@@ -82,8 +91,8 @@ export default class{
 
             newChild = normalizeChild(newChild);
 
-            if(newChild === null){
-                correctionIndex ++;
+            if (newChild === null) {
+                correctionIndex++;
                 return;
             }
 
@@ -97,11 +106,11 @@ export default class{
 
                 cache[oldChildIndex] = oldChild;
 
-                if(newChild.isSame(oldChild.value)){
+                if (newChild.isSame(oldChild.value)) {
                     isFinded = true;
-                    if(newChildIndex !== oldChildIndex){
+                    if (newChildIndex !== oldChildIndex) {
                         this.__moveToLastFixed(oldChildIndex, newChildIndex, cache);
-                    }else{
+                    } else {
                         this.lastFixedListChildIndex = oldChildIndex;
                         this.lastFixedListChild = oldChild;
                     }
@@ -109,7 +118,7 @@ export default class{
                 }
             });
 
-            if(!isFinded){
+            if (!isFinded) {
                 this.__appendAfterLastFixed(newChild, newChildIndex);
             }
         });
@@ -117,5 +126,10 @@ export default class{
         this.__cropAfterLastFixed();
         this.lastFixedListChild = null;
         this.lastFixedListChildIndex = null;
-    }
+    };
+
+    parentWillUnmount = () => this.__allPurposeParentLifeCycleMethod('parentWillUnmount');
+
+    parentDidUnmount = () => this.__allPurposeParentLifeCycleMethod('parentDidUnmount');
+
 }

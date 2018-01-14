@@ -7,6 +7,8 @@ export default () => new Component()
 
     .style(styles)
 
-    .render(e => <root>
+    .render(e => <root/>)
 
-    </root>)
+    .beforeUnmount(() => console.warn('before unmount photo'))
+
+    .afterUnmount(() => console.warn('after unmount photo'))

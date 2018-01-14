@@ -1,13 +1,14 @@
 import config from '../config';
 import BaseElement from '../BaseElement';
 
-export default class extends BaseElement{
+export default class extends BaseElement {
 
-    constructor (componentCreator, props, children) {
+    constructor(componentCreator, props, children, key) {
         const component = componentCreator(props, children);
         component.update(true);
         const node = component.__getRootElement().getNode();
-        super(node, config.TAG_ELEMENT_TYPE);
+        super(node, config.COMPONENT_ELEMENT_TYPE);
+        this.key = key;
         this.component = component;
     }
 
@@ -30,4 +31,12 @@ export default class extends BaseElement{
     appendAfter = (...args) => this.__lifeCycleMount(this.__appendAfter, args);
 
     appendTo = (...args) => this.__lifeCycleMount(this.__appendTo, args);
+
+
+    parentWillUnmount = () => this.component.__parentWillUnmount();
+
+    parentDidUnmount = () => this.component.__parentDidUnmount();
+
+    isMounted = () => this.component.isMounted;
+
 }

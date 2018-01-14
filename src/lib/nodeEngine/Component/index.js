@@ -25,7 +25,7 @@ export default class {
         this.styles = {};
 
         this.isSensetive = sensitive;
-        
+
         this.beforeMountCallback = () => {};
         this.afterMountCallback = () => {};
 
@@ -61,6 +61,25 @@ export default class {
         }
     };
 
+
+
+    __allPurposeParentLifeCycleMethod = (methodName, callbackName) => {
+        Object.keys(this.componentElements).forEach(componentElementKey => {
+            const componentElement = this.componentElements[componentElementKey];
+            if(componentElement.isMounted()){
+                componentElement[methodName]();
+            }
+        });
+        this[callbackName]();
+    };
+
+    __parentWillUnmount = () => this.__allPurposeParentLifeCycleMethod('parentWillUnmount', 'beforeUnmountCallback');
+
+    __parentDidUnmount = () => this.__allPurposeParentLifeCycleMethod('parentDidUnmount', 'afterUnmountCallback');
+
+
+
+
     __makeFullClassName = (mainClassName, mainStyleName, mode) =>{
         if(!mode){
             return mainClassName;
@@ -91,7 +110,7 @@ export default class {
         let tagElement = this.tagElements[elementKey];
 
         if(!tagElement) {
-            tagElement = this.tagElements[elementKey] = new TagElement(tagName);
+            tagElement = this.tagElements[elementKey] = new TagElement(tagName, elementKey);
         }
 
         config.SERVICE_PROPS.forEach(devProp => delete props[devProp]);
@@ -106,7 +125,7 @@ export default class {
         const componentKey = props.key;
         let componentElement = this.componentElements[componentKey];
         if(!componentElement) {
-            componentElement = this.componentElements[componentKey] = new ComponentElement(componentCreator, props, children);
+            componentElement = this.componentElements[componentKey] = new ComponentElement(componentCreator, props, children, componentKey);
         }
         return componentElement;
     };

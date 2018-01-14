@@ -51,5 +51,5 @@ export default class{
                 this.node.removeEventListener(eventName, eventHandler);
             }
         });
-    }
+    };
 }

@@ -27,4 +27,8 @@ export default () => {
             { store.data.show && <Photo key="Photo"/> }
             <Button key="Button" store={store}/>
         </root>)
+
+        .beforeUnmount(() => console.warn('before unmount profile'))
+
+        .afterUnmount(() => console.warn('after unmount profile'))
 }
