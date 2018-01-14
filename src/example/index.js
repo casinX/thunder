@@ -27,7 +27,7 @@ export default new Component()
         <root>
             <title-h1>Git loader</title-h1>
             { store.data.show && <repos>
-                <Profile key="Profile1"/>
+                <Profile key="Profile"/>
             </repos> }
             <Button key="Button" store={store}/>
         </root>
