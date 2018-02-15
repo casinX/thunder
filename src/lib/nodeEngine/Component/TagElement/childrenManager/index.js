@@ -128,6 +128,10 @@ export default class {
         this.lastFixedListChildIndex = null;
     };
 
+    parentWillMount = () => this.__allPurposeParentLifeCycleMethod('parentWillMount');
+
+    parentDidMount = () => this.__allPurposeParentLifeCycleMethod('parentDidMount');
+
     parentWillUnmount = () => this.__allPurposeParentLifeCycleMethod('parentWillUnmount');
 
     parentDidUnmount = () => this.__allPurposeParentLifeCycleMethod('parentDidUnmount');

@@ -23,6 +23,10 @@ export default () => {
 
         .connect(store)
 
+        .beforeMount(() => console.warn('before mount profile'))
+
+        .afterMount(() => console.warn('after mount profile'))
+
         .render(e => <root>
             { store.data.show && <Photo key="Photo"/> }
             <Button key="Button" store={store}/>

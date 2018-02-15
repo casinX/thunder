@@ -33,6 +33,10 @@ export default class extends BaseElement {
     appendTo = (...args) => this.__lifeCycleMount(this.__appendTo, args);
 
 
+    parentWillMount = () => this.component.__parentWillMount();
+
+    parentDidMount = () => this.component.__parentDidMount();
+
     parentWillUnmount = () => this.component.__parentWillUnmount();
 
     parentDidUnmount = () => this.component.__parentDidUnmount();

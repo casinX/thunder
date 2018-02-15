@@ -23,6 +23,10 @@ export default new Component()
 
     .connect(store)
 
+    .beforeMount(() => console.warn('BEFORE MOUNT ROOT'))
+
+    .afterMount(() => console.warn('AFTER MOUNT ROOT'))
+
     .render(e => (
         <root>
             <title-h1>Git loader</title-h1>
@@ -31,4 +35,8 @@ export default new Component()
             </repos> }
             <Button key="Button" store={store}/>
         </root>
-    ));
+    ))
+
+    .beforeUnmount(() => console.warn('BEFORE UN!MOUNT ROOT'))
+
+    .afterUnmount(() => console.warn('AFTER UN!MOUNT ROOT'))

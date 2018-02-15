@@ -25,6 +25,10 @@ export default class extends BaseElement{
         this.childrenManager.parentDidUnmount();
     };
 
+    parentWillMount = () => this.childrenManager.parentWillMount();
+
+    parentDidMount = () => this.childrenManager.parentDidMount();
+
     parentWillUnmount = () => this.childrenManager.parentWillUnmount();
 
     parentDidUnmount = () => this.childrenManager.parentDidUnmount();

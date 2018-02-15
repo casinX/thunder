@@ -35,16 +35,20 @@ export default class {
         this.isMounted = false;
     }
 
-    __tryLifeCycleBeforeMount = () => {
+    __tryLifeCycleBeforeMount = (noCallback=false) => {
         if(!this.isMounted){
-            this.beforeMountCallback();
+            if(!noCallback){
+                this.beforeMountCallback();
+            }
         }
     };
 
-    __tryLifeCycleAfterMount = () => {
+    __tryLifeCycleAfterMount = (noCallback=false) => {
         if(!this.isMounted) {
             this.isMounted = true;
-            this.afterMountCallback();
+            if(!noCallback) {
+                this.afterMountCallback();
+            }
         }
     };
 
@@ -73,9 +77,14 @@ export default class {
         this[callbackName]();
     };
 
+    __parentWillMount = () => this.__allPurposeParentLifeCycleMethod('parentWillMount', 'beforeMountCallback');
+
+    __parentDidMount = () => this.__allPurposeParentLifeCycleMethod('parentDidMount', 'afterMountCallback');
+
     __parentWillUnmount = () => this.__allPurposeParentLifeCycleMethod('parentWillUnmount', 'beforeUnmountCallback');
 
     __parentDidUnmount = () => this.__allPurposeParentLifeCycleMethod('parentDidUnmount', 'afterUnmountCallback');
+
 
 
 
@@ -162,8 +171,10 @@ export default class {
     mountTo = (node) => {
         this.mountNode = node;
         this.__tryLifeCycleBeforeMount();
+        // this.__parentWillMount();
         this.update(true);
         this.__tryLifeCycleAfterMount();
+        // this.__parentDidMount();
         this.mountNode.append(this.__getRootElement().getNode());
         return this;
     };
