@@ -1,11 +1,10 @@
 {
+
   "plugins": [
-    ["transform-react-jsx", {
-      "pragma": "e.__changeElement"
-    }]
+    ["transform-jsx", { "function": "e.__changeElement", "useVariables": true }]
   ],
   "presets": [
-    "latest",
+    "env",
     "stage-2"
   ]
 }

@@ -139,9 +139,14 @@ export default class {
         return componentElement;
     };
 
-    __changeElement = (typeOrComponentCreator, props, ...children) => {
+    __changeElement = (config) => {
 
-        children = evolventChildren(children);
+        const typeOrComponentCreator = config.elementName;
+        const props = config.attributes;
+        const children = evolventChildren(config.children || []);
+
+
+        console.warn(config);
 
         if(typeof typeOrComponentCreator === 'function'){
             return this.__changeComponentElement(typeOrComponentCreator, props, children);

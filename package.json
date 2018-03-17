@@ -22,8 +22,8 @@
     "autoprefixer": "^7.1.6",
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-latest": "^6.24.1",
+    "babel-plugin-transform-jsx": "^2.0.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.2",
@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "npm": "^5.7.1",
     "styled-elements": "^1.0.14"
   }
 }
