@@ -1,42 +1,34 @@
-import Component, { Store } from 'lib';
+import Component, { Store, request } from 'lib';
 
 import Button from 'components/Button';
-
-import Profile from './Profile';
 
 import styles from './styles.scss';
 
 
+const store = new Store({ repos: [] })
 
-const store = new Store({ show: true, text: 'Скрыть' })
-
-    .action('toggle', () => {
-        const { show } = store.data;
-        store.data.show = !show;
-        store.data.text = show ? 'Показать' : 'Скрыть';
+    .async('load', async () => {
+        const { response } = await request('https://api.github.com/users/casinx/repos', 'GET');
+        store.data.repos = response.data;
     });
 
-
+window.STORE = store;
 export default new Component()
 
     .style(styles)
 
     .connect(store)
 
-    .beforeMount(() => console.warn('BEFORE MOUNT ROOT'))
-
-    .afterMount(() => console.warn('AFTER MOUNT ROOT'))
-
     .render(e => (
         <root>
             <title-h1>Git loader</title-h1>
-            { store.data.show && <repos>
-                <Profile key="Profile"/>
-            </repos> }
+            <repos>
+              { store.data.repos.map(repo => <div
+                key={repo.id}
+              >
+                { repo.name }
+              </div>) }
+            </repos>
             <Button key="Button" store={store}/>
         </root>
     ))
-
-    .beforeUnmount(() => console.warn('BEFORE UN!MOUNT ROOT'))
-
-    .afterUnmount(() => console.warn('AFTER UN!MOUNT ROOT'))

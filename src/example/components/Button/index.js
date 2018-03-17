@@ -9,6 +9,9 @@ export default ({ store }) => new Component()
 
     .connect(store)
 
-    .render(e => <root click={store.toggle}>
-        { store.data.text }
+    .render(e => <root click={store.load.do}>
+      { store.load.error && 'error' }
+      { store.load.wait && 'wait' }
+      { store.load.ready && 'ready' }
+      { store.data.repos.length === 0 && 'load'  }
     </root>)

@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import syncDecorator from './utils/syncDecorator';
 import asyncDecorator from './utils/asyncDecorator';
 import excludedActionsNames from './excludedActionsNames';
@@ -8,8 +6,6 @@ import excludedActionsNames from './excludedActionsNames';
 export default class {
     constructor(data){
         this.data = data || null;
-
-        this.axios = axios;
 
         this.__updateMethods = [];
 
