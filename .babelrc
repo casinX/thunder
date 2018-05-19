@@ -1,8 +1,6 @@
 {
 
-  "plugins": [
-    ["transform-jsx", { "function": "e.__changeElement", "useVariables": true }]
-  ],
+  "plugins": [ "thunder-transform-jsx" ],
   "presets": [
     "env",
     "stage-2"

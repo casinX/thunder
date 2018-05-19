@@ -21,6 +21,9 @@ export default new Component()
 
     .render(e => (
         <root>
+          {/*<div styles.root>*/}
+
+          {/*</div>*/}
             <title-h1>Git loader</title-h1>
             <repos>
               { store.data.repos.map(repo => <div

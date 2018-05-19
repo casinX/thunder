@@ -159,7 +159,7 @@ export default class {
 
     // public methods
     render = method => {
-        this.renderMethod = method;
+        this.renderMethod = method.bind(this);
         return this;
     };
 

@@ -1,6 +1,5 @@
 export default {
     data: true,
-    axios: true,
     action: true,
     async: true,
     __updateMethods: true,
