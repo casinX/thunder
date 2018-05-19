@@ -7,12 +7,13 @@ import styles from './styles.scss';
 
 const store = new Store({ repos: [] })
 
-    .async('load', async () => {
-        const { response } = await request('https://api.github.com/users/casinx/repos', 'GET');
-        store.data.repos = response.data;
-    });
+  .async('load', async () => {
+    const { response } = await request('https://api.github.com/users/casinx/repos', 'GET');
+    store.data.repos = response.data;
+  });
 
-window.STORE = store;
+
+// window.STORE = store;
 export default new Component()
 
     .style(styles)
