@@ -62,9 +62,14 @@ const block5Store = new Store({ url: '' })
 
   .action('goToLink', url => {
     block5Store.data.url = url;
-    const state = { 'page_id': 1, 'user_id': 5 };
-    const title = 'Hello World';
-    history.pushState(state, title, url);
+    history.pushState({}, '', url);
+  });
+
+
+const block7Store = new Store({ text: '' })
+
+  .action('input', e => {
+    console.warn(e);
   });
 
 
@@ -83,7 +88,7 @@ export default new Component()
 
     .style(styles)
 
-    .connect(store, block2Store, block3Store, block4Store, block5Store)
+    .connect(store, block2Store, block3Store, block4Store, block5Store, block7Store)
 
     .beforeMount(() => {
       window.addEventListener('keypress', e => {
@@ -168,6 +173,12 @@ export default new Component()
             </repos>
             <Button key="Button" store={store}/>
           </block6>
+        </Container>
+
+        <Container key="block7" title="Блок 7" desc="Ввод текста">
+          <block7>
+            <text-textarea input={block7Store.input}>kk</text-textarea>
+          </block7>
         </Container>
       </root>
     })
