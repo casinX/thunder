@@ -1,0 +1,24 @@
+.root{
+  display: block;
+  position: relative;
+  margin: 10px 0 50px 0;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+
+.title{
+  display: block;
+  position: relative;
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+
+.description{
+  display: block;
+  position: relative;
+  margin-bottom: 20px;
+}

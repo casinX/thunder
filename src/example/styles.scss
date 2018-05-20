@@ -1,3 +1,10 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
 .root{
   padding: 20px;
   font-family: sans-serif;
@@ -7,10 +14,60 @@
   display: block;
   position: relative;
   margin-top: 0;
+  font-size: 50px;
+  margin-bottom: 50px;
 }
 
 .repos{
   display: block;
   position: relative;
   margin: 0 auto 10px auto;
+}
+
+
+.block1,
+.block2,
+.block3,
+.block4,
+.block5,
+.block6{
+  max-height: 200px;
+  overflow: auto;
+  background-color: #eee;
+  padding: 10px;
+}
+
+
+.button{
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  margin-bottom: 10px;
+  margin-right: 20px;
+
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #444;
+  color: #fff;
+
+  &:hover{
+    background-color: #000;
+  }
+}
+
+
+.block4ListItem{
+  display: block;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+
+.link{
+  display: inline-block;
+  color: dodgerblue;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
 }

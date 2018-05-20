@@ -51,7 +51,7 @@ export default {
     module: {
         rules: [
             {
-                test: /\.js?$/,
+                test: /\.jsx?/,
                 exclude: /node_modules/,
                 loader: 'babel-loader',
             },
@@ -87,7 +87,7 @@ export default {
     plugins,
     resolve: {
         modules: ['node_modules'],
-        extensions: ['.js', ],
+        extensions: ['.js', '.jsx' ],
         alias: {
             'example': `${srcPath}/example`,
             'components': `${srcPath}/example/components`,

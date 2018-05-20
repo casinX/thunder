@@ -87,8 +87,6 @@ export default class {
 
 
 
-
-
     __makeFullClassName = (mainClassName, mainStyleName, mode) =>{
         if(!mode){
             return mainClassName;
@@ -146,7 +144,7 @@ export default class {
         const children = evolventChildren(config.children || []);
 
 
-        console.warn(config);
+        // console.warn(config);
 
         if(typeof typeOrComponentCreator === 'function'){
             return this.__changeComponentElement(typeOrComponentCreator, props, children);

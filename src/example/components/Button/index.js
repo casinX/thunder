@@ -10,8 +10,8 @@ export default ({ store }) => new Component()
     .connect(store)
 
     .render(e => <root click={store.load.do}>
-      { store.load.error && 'error' }
-      { store.load.wait && 'wait' }
-      { store.load.ready && 'ready' }
-      { store.data.repos.length === 0 && 'load'  }
+      { store.load.error && 'Ошибка' }
+      { store.load.wait && 'Загрузка' }
+      { store.load.ready && 'Готово' }
+      { !store.load.wait && store.data.repos.length === 0 && 'Загрузить'  }
     </root>)
