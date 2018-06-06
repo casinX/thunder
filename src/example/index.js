@@ -138,7 +138,7 @@ export default new Component()
             {block4List.map((text, index) => <block4ListItem key={index}>
               {text}
             </block4ListItem>)}
-            <br/>
+            {/*<br/>*/}
             <button key="button3" click={block4Store.addElement}>
               Добавить
             </button>
@@ -151,7 +151,7 @@ export default new Component()
         <Container key="block5" title="Блок 5" desc="Виртуальные переходы по ссылкам">
           <block5>
             <span>{ block5Store.data.url }</span>
-            <br/>
+            {/*<br/>*/}
             <link key="link1" click={() => block5Store.goToLink('/virtual/link/1')}>
               Виртуальная ссылка 1
             </link>
